@@ -8,12 +8,12 @@
 }(function (HC) {
 	'use strict';
 	/**
-	 * Grouped Categories v1.1.3 (2017-03-27)
-	 *
-	 * (c) 2012-2016 Black Label
-	 *
-	 * License: Creative Commons Attribution (CC)
-	 */
+   * Grouped Categories v1.1.3 (2017-03-27)
+   *
+   * (c) 2012-2016 Black Label
+   *
+   * License: Creative Commons Attribution (CC)
+   */
 
 	/* jshint expr:true, boss:true */
 	var UNDEFINED = void 0,
@@ -95,7 +95,7 @@
 
 		while (len--) {
 			cat = cats[len];
-			
+
 			if (cat.categories) {
 				if (parent) {
 					cat.parent = parent;
@@ -242,13 +242,13 @@
 		// render grid path for the first time
 		if (!grid) {
 			grid = axis.labelsGrid = axis.chart.renderer.path()
-			.attr({
-				// #58: use tickWidth/tickColor instead of lineWidth/lineColor:
-				strokeWidth: tickWidth, // < 4.0.3
-				'stroke-width': tickWidth, // 4.0.3+ #30
-				stroke: options.tickColor || '' // for styled mode (tickColor === undefined)
-			})
-			.add(axis.axisGroup);
+				.attr({
+					// #58: use tickWidth/tickColor instead of lineWidth/lineColor:
+					strokeWidth: tickWidth, // < 4.0.3
+					'stroke-width': tickWidth, // 4.0.3+ #30
+					stroke: options.tickColor || '' // for styled mode (tickColor === undefined)
+				})
+				.add(axis.axisGroup);
 			// for styled mode - add class
 			if (!options.tickColor) {
 				grid.addClass('highcharts-tick');
@@ -320,17 +320,17 @@
 		}
 		walk(this.categoriesTree, 'categories', function (group) {
 			var tick = group.tick;
-			
+
 			if (!tick) {
 				return false;
 			}
 			tick.label.destroy();
-			
+
 			each(tick, function (v, i) {
 				delete tick[i];
 			});
 			delete group.tick;
-			
+
 			return true;
 		});
 		this.labelsGrid = null;
@@ -373,13 +373,26 @@
 		var tick = this,
 			axis = tick.axis,
 			category;
-		
+
+		// force recreation of label, fixes issue with HighCharts v8
+		tick.isNew = true;
+		tick.isNewLabel = true;
+		if (tick.label) {
+			tick.label.destroy();
+			delete tick.label;
+		}
+		if (tick.formatCtx) {
+			delete tick.formatCtx;
+		}
+		if (tick.parent) {
+			delete tick.parent;
+		}
 		protoTickAddLabel.call(tick);
-		
+
 		if (!axis.categories || !(category = axis.categories[tick.pos])) {
 			return false;
 		}
-		
+
 		// set label text - but applied after formatter #46
 		if (tick.label) {
 			tick.label.attr('text', tick.axis.labelFormatter.call({
@@ -391,7 +404,7 @@
 				pos: tick.pos
 			}));
 		}
-		
+
 		// create elements for parent categories
 		if (axis.isGrouped && axis.options.labels.enabled) {
 			tick.addGroupedLabels(category);
@@ -532,18 +545,18 @@
 
 		while (group.parent) {
 			group = group.parent;
-			
+
 			var fix = fixOffset(treeCat),
 				userX = group.labelOffsets.x,
 				userY = group.labelOffsets.y;
-			
+
 			minPos = tickPosition(tick, mathMax(group.startAt - 1, min - 1));
 			maxPos = tickPosition(tick, mathMin(group.startAt + group.leaves - 1 - fix, max));
 			bBox = group.label.getBBox(true);
 			lvlSize = axis.groupSize(depth);
 			// check if on the edge to adjust
 			reverseCrisp = ((horiz && maxPos.x === axis.pos + axis.len) || (!horiz && maxPos.y === axis.pos)) ? -1 : 0;
-			
+
 			attrs = horiz ? {
 				x: (minPos.x + maxPos.x) / 2 + userX,
 				y: size + axis.groupFontHeights[depth] + lvlSize / 2 + userY / 2
@@ -551,7 +564,7 @@
 				x: size + lvlSize / 2 + userX,
 				y: (minPos.y + maxPos.y - bBox.height) / 2 + baseLine + userY
 			};
-			
+
 			if (!isNaN(attrs.x) && !isNaN(attrs.y)) {
 				group.label.attr(attrs);
 
