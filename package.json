@@ -1,11 +1,11 @@
 {
-  "name": "highcharts-grouped-categories",
+  "name": "@mtechaccess/highcharts-grouped-categories",
   "version": "1.1.3",
   "description": "Highcharts plugin to add grouped categories to charts.",
   "main": "grouped-categories.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/blacklabel/grouped_categories.git"
+    "url": "git+https://github.com/mtechaccess/grouped_categories.git"
   },
   "keywords": [
     "highcharts",
@@ -13,17 +13,20 @@
     "categories",
     "highcharts-addon"
   ],
-  "author": "Black Label <start@blacklabel.pl> (http://blacklabel.pl)",
+  "author": "Black Label <start@blacklabel.pl> (http://mtechaccess.pl). Amended by MtechAccess",
   "license": "SEE LICENSE IN license.txt",
   "bugs": {
-    "url": "https://github.com/blacklabel/grouped_categories/issues"
+    "url": "https://github.com/mtechaccess/grouped_categories/issues"
   },
-  "homepage": "https://github.com/blacklabel/grouped_categories#readme",
+  "homepage": "https://github.com/mtechaccess/grouped_categories#readme",
   "files": [
     "grouped-categories.js"
   ],
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-eslint": "^3.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
